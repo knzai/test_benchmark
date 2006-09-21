@@ -1,0 +1,7 @@
+author: topfunky
+summary: Hack to show a report of how long individual tests take to run.
+homepage: http://nubyonrails.com
+plugin: http://topfunky.net/svn/plugins/test_benchmark
+license: MIT
+version: 0.1
+rails_version: 1.1+
