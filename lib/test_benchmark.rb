@@ -1,5 +1,5 @@
 
-if ENV.has_key?('SHOW_TEST_BENCHMARK_REPORT')
+unless ENV['SHOW_TEST_BENCHMARK_REPORT'].blank?
   
   # EXPERIMENTAL
   # Show a report of the time each test takes to run
