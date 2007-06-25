@@ -1,0 +1,5 @@
+== 0.0.2
+
+* Renamed gem to test_benchmark
+* Upgraded to Hoe.
+* Will always show report. If you don't want to see the report, it is recommended that you install the gem and list or comment out "require 'test_benchmark'" to enable the gem.
