@@ -2,7 +2,7 @@ require 'rubygems'
 require 'hoe'
 # require './lib/test_benchmark.rb'
 
-Hoe.new("test_benchmark", '0.0.2') do |p|
+Hoe.new("test_benchmark", '0.0.3') do |p|
   p.summary = "A plugin for showing how long tests take to run."
   p.rubyforge_name = 'seattlerb'
   p.author = 'Geoffrey Grosenbach'
