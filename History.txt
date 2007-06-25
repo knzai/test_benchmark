@@ -1,3 +1,8 @@
+== 0.0.3 / 2007-06-24
+
+* Updated Manifest.txt so files are actually packaged in the gem. D'oh!
+* See also release notes for version 0.0.2
+
 == 0.0.2
 
 * Renamed gem to test_benchmark
