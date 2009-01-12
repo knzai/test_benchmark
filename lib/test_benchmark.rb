@@ -26,7 +26,9 @@ class TestRunner
   alias finished_old finished
   def finished(elapsed_time)
     finished_old(elapsed_time)
-    @benchmark_times.sort{|a, b| a[1] <=> b[1]}.each do |element|
+    output_group = @benchmark_times.sort{|a, b| b[1] <=> a[1]}
+    output_group = output_group.slice(0,10) unless ENV['BENCHMARK'] == 'full'
+    output_group.each do |element|
       value = element[1]
       key = element[0]
       puts(("%0.3f" % value) + " #{key}") if /^test_/.match(key)
