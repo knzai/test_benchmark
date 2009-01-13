@@ -5,11 +5,7 @@ require 'test/unit/testresult'
 require 'test/unit/testcase'
 require 'test/unit/ui/console/testrunner'
 
-module Test
-module Unit
-module UI
-module Console
-class TestRunner
+class Test::Unit::UI::Console::TestRunner
   include Loggable if const_defined?(:Loggable)
   
   alias attach_to_mediator_old attach_to_mediator
@@ -75,11 +71,6 @@ class TestRunner
       puts strings
     end
   end
-end
-
-end
-end
-end
 end
 
 end
