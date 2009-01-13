@@ -1,3 +1,5 @@
+unless %w{false none}.include?(ENV['BENCHMARK'])
+
 require 'test/unit'
 require 'test/unit/testresult'
 require 'test/unit/testcase'
@@ -7,7 +9,6 @@ module Test
 module Unit
 module UI
 module Console
-
 class TestRunner
   include Loggable if const_defined?(:Loggable)
   
@@ -79,4 +80,6 @@ end
 end
 end
 end
+end
+
 end
