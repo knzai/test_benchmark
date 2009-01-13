@@ -9,6 +9,7 @@ module UI
 module Console
 
 class TestRunner
+  include Loggable
   
   alias attach_to_mediator_old attach_to_mediator
   def attach_to_mediator
@@ -27,11 +28,14 @@ class TestRunner
   def finished(elapsed_time)
     finished_old(elapsed_time)
     output_group = @benchmark_times.sort{|a, b| b[1] <=> a[1]}
-    output_group = output_group.slice(0,10) unless ENV['BENCHMARK'] == 'full'
+    logger.debug "\nOVERALL TEST BENCHMARK TIMES"
     output_group.each do |element|
-      value = element[1]
-      key = element[0]
-      puts(("%0.3f" % value) + " #{key}") if /^test_/.match(key)
+      logger.debug format_benchmark_row(element)
+    end    
+    output_group = output_group.slice(0,10) unless ENV['BENCHMARK'] == 'full'
+    puts "\nOVERALL TEST BENCHMARK TIMES"
+    output_group.each do |element|
+      puts format_benchmark_row(element)
     end
   end
   
@@ -51,7 +55,19 @@ class TestRunner
   end
   
   def test_suite_finished(name)
+    return unless ENV['BENCHMARK'] == 'full'
+    output_group = @benchmark_times.select{ |k,v| k.include?(name) }.sort{|a, b| b[1] <=> a[1]}
+    return if output_group.length == 0
+    puts "\nTEST BENCHMARK TIMES: #{name}"
+    output_group.each do |element|
+      puts format_benchmark_row(element)
+    end
   end
+  
+  def format_benchmark_row(array)
+    ("%0.3f" % array[1]) + " #{array[0]}"
+  end
+  
 end
 
 end
