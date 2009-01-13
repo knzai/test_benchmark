@@ -1,0 +1,37 @@
+h1. Test Benchmark
+
+A ruby gem and rails plugin to show you how slow your Test::Unit tests run. Useful for troubleshooting/isolating slow tests.
+
+Sample output:
+<pre><code>
+  7.124 test_destroy(FeedTest)
+  7.219 test_create(FeedTest)
+  7.646 test_subscribe_to_auto_discovery(FeedTest)
+  9.339 test_auto_discover_updates_url(FeedTest)
+  9.543 test_find_or_create_by_auto_discover_url(FeedTest)
+  15.780 test_import_from_opml(FeedTest)
+</code></pre>
+
+h2. Install and enable
+
+h3. As a Rails Plugin
+
+./script/plugin install git://github.com/timocratic/test_benchmark.git
+
+h3. As a Ruby gem
+
+* *Update to RubyGems 1.2.0+ before proceeding!!*
+* gem sources -a http://gems.github.com (you only have to do this once)
+* sudo gem install timocratic-test_benchmark
+
+Then in your code:
+* require 'rubygems'
+* require 'test_benchmark
+
+h2. Options and disabling temporarily
+
+By default the top 10 slowest tests are output to the console (and in Rails the whole list is dumped to test.log).  To see the full dump in your console (as well as get a per-file/suite breakdown) set the env variable BENCHMARK to 'full':
+
+<pre><code>BENCHMARK=full rake test</code></pre>
+
+To disable completely, run with it set to 'false' instead.
