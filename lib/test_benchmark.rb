@@ -8,6 +8,18 @@ require 'test/unit/ui/console/testrunner'
 class Test::Unit::UI::Console::TestRunner
   include Loggable if const_defined?(:Loggable)
   
+  def benchmark_times
+    @benchmark_times.sort(&method(:by_time))
+  end
+  
+  def slowest_benchmarks
+    @benchmark_times.sort(&method(:by_time)).slice(0,10)
+  end
+  
+  def suite_benchmarks(name)
+    @benchmark_times.select{ |k,v| k.include?(name) }.sort(&method(:by_time))
+  end
+  
   alias attach_to_mediator_old attach_to_mediator
   # def attach_to_mediator_old
   #   @mediator.add_listener(TestResult::FAULT, &method(:add_fault))
@@ -31,9 +43,12 @@ class Test::Unit::UI::Console::TestRunner
   alias finished_old finished
   def finished(elapsed_time)
     finished_old(elapsed_time)
-    benchmarks = @benchmark_times.sort{|a, b| b[1] <=> a[1]}
-    output_benchmarks(benchmarks, true)
-    benchmarks = benchmarks.slice(0,10) unless ENV['BENCHMARK'] == 'full'
+    output_benchmarks(benchmark_times, true) #dump full results to the log
+    if ENV['BENCHMARK'] == 'full'
+      benchmarks = benchmark_times
+    else
+      benchmarks = slowest_benchmarks
+    end
     output_benchmarks(benchmarks)
   end
   
@@ -54,11 +69,17 @@ class Test::Unit::UI::Console::TestRunner
   
   def test_suite_finished(name)
     return unless ENV['BENCHMARK'] == 'full'
-    benchmarks = @benchmark_times.select{ |k,v| k.include?(name) }.sort{|a, b| b[1] <=> a[1]}
+    benchmarks = suite_benchmarks
     output_benchmarks(benchmarks, false, name) unless benchmarks.length == 0
   end
   
-  def format_benchmark_row(tuple)
+  private  
+  def by_time(a,b)
+    b[1] <=> a[1]
+  end
+  
+  def format_row(*tuple)
+    tuple.flatten!
     ("%0.3f" % tuple[1]) + " #{tuple[0]}"
   end
   
@@ -69,7 +90,7 @@ class Test::Unit::UI::Console::TestRunner
     else
       header = "\nOVERALL TEST BENCHMARK TIMES"
     end
-    strings = benchmarks.map {|tuple| format_benchmark_row(tuple)}
+    strings = benchmarks.map(&method(:format_row))
     if use_logger
       logger.debug header
       logger.debug strings.join("\n")
