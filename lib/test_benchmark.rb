@@ -9,6 +9,13 @@ class Test::Unit::UI::Console::TestRunner
   include Loggable if const_defined?(:Loggable)
   
   alias attach_to_mediator_old attach_to_mediator
+  # def attach_to_mediator_old
+  #   @mediator.add_listener(TestResult::FAULT, &method(:add_fault))
+  #   @mediator.add_listener(TestRunnerMediator::STARTED, &method(:started))
+  #   @mediator.add_listener(TestRunnerMediator::FINISHED, &method(:finished))
+  #   @mediator.add_listener(TestCase::STARTED, &method(:test_started))
+  #   @mediator.add_listener(TestCase::FINISHED, &method(:test_finished))
+  # end
   def attach_to_mediator
     attach_to_mediator_old
     @mediator.add_listener(Test::Unit::TestSuite::STARTED, &method(:test_suite_started))
