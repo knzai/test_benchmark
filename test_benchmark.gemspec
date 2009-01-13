@@ -1,6 +1,7 @@
 Gem::Specification.new do |s| 
   s.name = "test_benchmark"
   s.version = "0.4"
+  s.date = "2009-01-13"
   s.author = "Tim Connor"
   s.email = "timocratic@gmail.com"
   s.homepage = "http://github.com/timocratic/test_benchmark"
@@ -9,4 +10,5 @@ Gem::Specification.new do |s|
   s.require_path = "lib"
   #s.has_rdoc = true 
   #s.extra_rdoc_files = ["README.txt"]
+  s.files = ['lib/test_benchmark.rb']
 end 
