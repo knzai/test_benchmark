@@ -69,7 +69,7 @@ class Test::Unit::UI::Console::TestRunner
     else
       header = "\nOVERALL TEST BENCHMARK TIMES"
     end
-    strings = benchmarks.map {|tuple| ("%0.3f" % tuple[1]) + " #{tuple[0]}"}
+    strings = benchmarks.map {|tuple| format_benchmark_row(tuple)}
     if use_logger
       logger.debug header
       logger.debug strings.join("\n")
