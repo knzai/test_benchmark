@@ -9,7 +9,7 @@ module UI
 module Console
 
 class TestRunner
-  include Loggable
+  include Loggable if const_defined?(:Loggable)
   
   alias attach_to_mediator_old attach_to_mediator
   def attach_to_mediator
@@ -59,6 +59,7 @@ class TestRunner
   end
   
   def output_benchmarks(benchmarks, use_logger=false, name=nil)
+    return if use_logger && defined?(:logger)
     if name
       header = "\nTest Benchmark Times: #{name}"
     else
