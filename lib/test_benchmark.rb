@@ -59,7 +59,7 @@ class TestRunner
   end
   
   def output_benchmarks(benchmarks, use_logger=false, name=nil)
-    return if use_logger && defined?(:logger)
+    return if use_logger && !defined?(logger)
     if name
       header = "\nTest Benchmark Times: #{name}"
     else
