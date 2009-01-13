@@ -16,7 +16,8 @@ h2. Install and enable
 
 h3. As a Rails Plugin
 
-./script/plugin install git://github.com/timocratic/test_benchmark.git
+<pre><code>./script/plugin install git://github.com/timocratic/test_benchmark.git</pre></code>
+That's it.  In the future may move to only being a gem, though (since you can just freeze those into vendor too, now).
 
 h3. As a Ruby gem
 
