@@ -27,16 +27,10 @@ class TestRunner
   alias finished_old finished
   def finished(elapsed_time)
     finished_old(elapsed_time)
-    output_group = @benchmark_times.sort{|a, b| b[1] <=> a[1]}
-    logger.debug "\nOVERALL TEST BENCHMARK TIMES"
-    output_group.each do |element|
-      logger.debug format_benchmark_row(element)
-    end    
-    output_group = output_group.slice(0,10) unless ENV['BENCHMARK'] == 'full'
-    puts "\nOVERALL TEST BENCHMARK TIMES"
-    output_group.each do |element|
-      puts format_benchmark_row(element)
-    end
+    benchmarks = @benchmark_times.sort{|a, b| b[1] <=> a[1]}
+    output_benchmarks(benchmarks, true)
+    benchmarks = benchmarks.slice(0,10) unless ENV['BENCHMARK'] == 'full'
+    output_benchmarks(benchmarks)
   end
   
   alias test_started_old test_started
@@ -56,18 +50,29 @@ class TestRunner
   
   def test_suite_finished(name)
     return unless ENV['BENCHMARK'] == 'full'
-    output_group = @benchmark_times.select{ |k,v| k.include?(name) }.sort{|a, b| b[1] <=> a[1]}
-    return if output_group.length == 0
-    puts "\nTEST BENCHMARK TIMES: #{name}"
-    output_group.each do |element|
-      puts format_benchmark_row(element)
+    benchmarks = @benchmark_times.select{ |k,v| k.include?(name) }.sort{|a, b| b[1] <=> a[1]}
+    output_benchmarks(benchmarks, false, name) unless benchmarks.length == 0
+  end
+  
+  def format_benchmark_row(tuple)
+    ("%0.3f" % tuple[1]) + " #{tuple[0]}"
+  end
+  
+  def output_benchmarks(benchmarks, use_logger=false, name=nil)
+    if name
+      header = "\nTest Benchmark Times: #{name}"
+    else
+      header = "\nOVERALL TEST BENCHMARK TIMES"
+    end
+    strings = benchmarks.map {|tuple| ("%0.3f" % tuple[1]) + " #{tuple[0]}"}
+    if use_logger
+      logger.debug header
+      logger.debug strings.join("\n")
+    else
+      puts header
+      puts strings
     end
   end
-  
-  def format_benchmark_row(array)
-    ("%0.3f" % array[1]) + " #{array[0]}"
-  end
-  
 end
 
 end
