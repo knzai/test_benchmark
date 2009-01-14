@@ -1,6 +1,6 @@
 h1. Test Benchmark
 
-A ruby gem and rails plugin to show you how slow your Test::Unit tests run. Useful for troubleshooting/isolating slow tests.
+A ruby gem and rails plugin to show you how slow your Test::Unit tests run. Useful for troubleshooting/isolating slow tests. Available from http://github.com/timocratic/test_benchmark/
 
 Sample output:
 <pre><code>
@@ -18,17 +18,32 @@ h3. As a Rails Plugin
 
 <pre><code>./script/plugin install git://github.com/timocratic/test_benchmark.git</pre></code>
 
-That's it.  It will also work in rails as a gem (optionally frozen), which then you can add to your your environments/test.rb config.gems
-
 h3. As a Ruby gem
+
+h4. Install
 
 * *Update to RubyGems 1.2.0+ before proceeding!!*
 * gem sources -a http://gems.github.com (you only have to do this once)
 * sudo gem install timocratic-test_benchmark
 
-Then in your code:
+h4. Enable
+
 * require 'rubygems'
 * require 'test_benchmark
+
+h3. As a (frozen) gem in rails
+
+I recommend this method.  It makes updating simple, and if I had more config in the future, that will be easily done only in your test environment
+
+<pre><code>
+in config/environments/test.rb
+config.gem "timocratic-test_benchmark", :lib => 'test_benchmark', :source => 'http://gems.github.com', :version => '0.4.2' #update to whatever version number is current</code></pre>
+
+<pre><code>
+RAILS_ENV=test GEM=timocratic-test_benchmark rake gems:install
+RAILS_ENV=test GEM=timocratic-test_benchmark rake gems:unpack #optional, but suggested step - 'freezing' the gem
+</code></pre>
+
 
 h2. Options and disabling temporarily
 
