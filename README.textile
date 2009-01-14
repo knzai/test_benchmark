@@ -35,9 +35,12 @@ h3. As a (frozen) gem in rails
 
 I recommend this method.  It makes updating simple, and if I had more config in the future, that will be easily done only in your test environment
 
+h4. in config/environments/test.rb
+
 <pre><code>
-in config/environments/test.rb
 config.gem "timocratic-test_benchmark", :lib => 'test_benchmark', :source => 'http://gems.github.com', :version => '0.4.2' #update to whatever version number is current</code></pre>
+
+h4. from the console
 
 <pre><code>
 RAILS_ENV=test GEM=timocratic-test_benchmark rake gems:install
