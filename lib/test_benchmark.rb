@@ -5,21 +5,7 @@ require 'test/unit/testresult'
 require 'test/unit/testcase'
 require 'test/unit/ui/console/testrunner'
 
-class Test::Unit::UI::Console::TestRunner
-  include Loggable if const_defined?(:Loggable)
-  
-  def benchmark_times
-    @benchmark_times.sort(&method(:by_time))
-  end
-  
-  def slowest_benchmarks
-    @benchmark_times.sort(&method(:by_time)).slice(0,10)
-  end
-  
-  def suite_benchmarks(name)
-    @benchmark_times.select{ |k,v| k.include?(name) }.sort(&method(:by_time))
-  end
-  
+class Test::Unit::UI::Console::TestRunner  
   alias attach_to_mediator_old attach_to_mediator
   # def attach_to_mediator_old
   #   @mediator.add_listener(TestResult::FAULT, &method(:add_fault))
@@ -43,13 +29,7 @@ class Test::Unit::UI::Console::TestRunner
   alias finished_old finished
   def finished(elapsed_time)
     finished_old(elapsed_time)
-    output_benchmarks(benchmark_times, true) #dump full results to the log
-    if ENV['BENCHMARK'] == 'full'
-      benchmarks = benchmark_times
-    else
-      benchmarks = slowest_benchmarks
-    end
-    output_benchmarks(benchmarks)
+    output_benchmarks
   end
   
   alias test_started_old test_started
@@ -64,40 +44,45 @@ class Test::Unit::UI::Console::TestRunner
     @benchmark_times[name] = Time.now - @benchmark_times[name]
   end
   
-  def test_suite_started(name)
+  def test_suite_started(suite_name)
   end
   
-  def test_suite_finished(name)
-    return unless ENV['BENCHMARK'] == 'full'
-    benchmarks = suite_benchmarks
-    output_benchmarks(benchmarks, false, name) unless benchmarks.length == 0
+  def test_suite_finished(suite_name)
+    output_benchmarks(suite_name) if full_output?
   end
   
-  private  
-  def by_time(a,b)
-    b[1] <=> a[1]
+  @@format_benchmark_row = lambda {|tuple| ("%0.3f" % tuple[1]) + " #{tuple[0]}"}
+  @@sort_by_time = lambda { |a,b| b[1] <=> a[1] }
+
+private
+  def full_output?
+    ENV['BENCHMARK'] == 'full'
   end
-  
-  def format_row(*tuple)
-    tuple.flatten!
-    ("%0.3f" % tuple[1]) + " #{tuple[0]}"
+
+  def select_by_suite_name(suite_name)
+    @benchmark_times.select{ |k,v| k.include?(suite_name) }
   end
-  
-  def output_benchmarks(benchmarks, use_logger=false, name=nil)
-    return if use_logger && !defined?(logger)
-    if name
-      header = "\nTest Benchmark Times: #{name}"
+
+  def prep_benchmarks(suite_name=nil)
+    benchmarks = suite_name ? select_by_suite_name(suite_name) : @benchmark_times
+    benchmarks = benchmarks.sort(&@@sort_by_time)
+    benchmarks = benchmarks.slice(0,10) unless full_output?
+    benchmarks
+  end
+
+  def header(suite_name)
+    if suite_name
+      "\nTest Benchmark Times: #{suite_name}"
     else
-      header = "\nOVERALL TEST BENCHMARK TIMES"
+      "\nOVERALL TEST BENCHMARK TIMES"
     end
-    strings = benchmarks.map(&method(:format_row))
-    if use_logger
-      logger.debug header
-      logger.debug strings.join("\n")
-    else
-      puts header
-      puts strings
-    end
+  end
+
+  def output_benchmarks(suite_name=nil)
+    benchmarks = prep_benchmarks(suite_name)
+    return if benchmarks.empty?
+    strings = benchmarks.map(&@@format_benchmark_row)
+    puts header(suite_name) + "\n" + strings.join("\n") + "\n\n"
   end
 end
 
