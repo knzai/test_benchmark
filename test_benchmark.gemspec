@@ -1,6 +1,6 @@
 Gem::Specification.new do |s| 
   s.name = "test_benchmark"
-  s.version = "0.4.2"
+  s.version = "0.4.3"
   s.date = "2009-01-13"
   s.author = "Tim Connor"
   s.email = "timocratic@gmail.com"
