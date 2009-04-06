@@ -1,5 +1,3 @@
-unless %w{false none}.include?(ENV['BENCHMARK'])
-
 require 'test/unit'
 require 'test/unit/testresult'
 require 'test/unit/testcase'
@@ -103,6 +101,4 @@ private
     return if benchmarks.nil? || benchmarks.empty?
     puts header(suite_name) + benchmarks.join("\n") + "\n"
   end
-end
-
 end
