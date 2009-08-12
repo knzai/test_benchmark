@@ -4,8 +4,10 @@ require 'test/unit/testcase'
 require 'test/unit/ui/console/testrunner'
 
 class Test::Unit::UI::Console::TestRunner
-  DISPLAY_LIMIT = 15
-  SUITE_DISPLAY_LIMIT = 5
+  def self.set_test_benchmark_limits(set_display_limit=15, set_suite_display_limit=5)
+    DISPLAY_LIMIT = set_display_limit
+    SUITE_DISPLAY_LIMIT = set_suite_display_limit
+  end
   
   alias attach_to_mediator_old attach_to_mediator
   # def attach_to_mediator_old
