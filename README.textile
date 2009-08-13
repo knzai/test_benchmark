@@ -50,8 +50,23 @@ RAILS_ENV=test GEM=timocratic-test_benchmark rake gems:unpack #optional, but sug
 
 h2. Options and disabling temporarily
 
-By default the top 10 slowest tests are output to the console (and in Rails the whole list is dumped to test.log).  To see the full dump in your console (as well as get a per-file/suite breakdown) set the env variable BENCHMARK to 'full':
+By default the top 15 slowest tests are output to the console (and in Rails the whole list is dumped to test.log).  To see the full dump in your console (as well as get a per-file/suite breakdown) set the env variable BENCHMARK to 'full':
 
 <pre><code>BENCHMARK=full rake test</code></pre>
 
 To disable completely, run with it set to 'false' instead.
+
+You can also customize the number of results through the Test::Unit::UI::Console::TestRunner.set_test_benchmark_limits(set_display_limit, set_suite_display_limit) method. For example, putting this line in your test_helper.rb file will output a summary of 5 slowest tests and 3 slowest test classes:
+
+<pre><code>
+Test::Unit::UI::Console::TestRunner.set_test_benchmark_limits(5, 3)
+</code></pre>
+
+And this will disable output entirely:
+
+<pre><code>
+Test::Unit::UI::Console::TestRunner.set_test_benchmark_limits(0, 0)
+</code></pre>
+
+
+  

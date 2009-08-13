@@ -1,3 +1,7 @@
+== 0.4.5 / 2009-08-13 
+
+* Implemented Test::Unit::UI::Console::TestRunner.set_test_benchmark_limits
+
 == 0.0.3 / 2007-06-24
 
 * Updated Manifest.txt so files are actually packaged in the gem. D'oh!
