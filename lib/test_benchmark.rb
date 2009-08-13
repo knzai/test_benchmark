@@ -4,7 +4,13 @@ require 'test/unit/testcase'
 require 'test/unit/ui/console/testrunner'
 
 class Test::Unit::UI::Console::TestRunner
-  def self.set_test_benchmark_limits(set_display_limit=15, set_suite_display_limit=5)
+  DEFAULT_DISPLAY_LIMIT = 15
+  DEFAULT_SUITE_DISPLAY_LIMIT = 5
+  
+  @@display_limit = DEFAULT_DISPLAY_LIMIT
+  @@suite_display_limit = DEFAULT_SUITE_DISPLAY_LIMIT
+  
+  def self.set_test_benchmark_limits(set_display_limit=DEFAULT_DISPLAY_LIMIT, set_suite_display_limit=DEFAULT_SUITE_DISPLAY_LIMIT)
     @@display_limit = set_display_limit
     @@suite_display_limit = set_suite_display_limit
   end
