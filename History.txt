@@ -1,4 +1,4 @@
-== 0.4.5 / 2009-08-13 
+== 0.4.6 / 2009-08-13 
 
 * Implemented Test::Unit::UI::Console::TestRunner.set_test_benchmark_limits
 
