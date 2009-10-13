@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = "test_benchmark"
   s.version = "0.4.6"
   s.date = "2009-01-13"
-  s.author = "Tim Connor"
+  s.authors = ['Tim Connor', 'Geoffrey Grosenbach', 'Mike Gunderloy', 'Luke Francl', 'Marek de Heus']
   s.email = "timocratic@gmail.com"
   s.homepage = "http://github.com/timocratic/test_benchmark"
   s.platform = Gem::Platform::RUBY
