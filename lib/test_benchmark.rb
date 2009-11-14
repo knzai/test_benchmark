@@ -41,7 +41,8 @@ class Test::Unit::UI::Console::TestRunner
     finished_old(elapsed_time)
     output_benchmarks
     output_benchmarks(:suite)
-    puts "\n"
+    nl
+    exit!(1) unless @faults.empty?
   end
   
   alias test_started_old test_started
@@ -107,6 +108,6 @@ private
   def output_benchmarks(suite_name=nil)
     benchmarks = prep_benchmarks(suite_name)
     return if benchmarks.nil? || benchmarks.empty?
-    puts header(suite_name) + benchmarks.join("\n") + "\n"
+    output(header(suite_name) + benchmarks.join("\n") + "\n")
   end
 end
