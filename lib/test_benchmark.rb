@@ -29,6 +29,13 @@ class Test::Unit::UI::Console::TestRunner
     @mediator.add_listener(Test::Unit::TestSuite::FINISHED, &method(:test_suite_finished))
   end
   
+  def add_fault(fault)
+    @faults << fault
+    nl
+    output("%3d) %s" % [@faults.length, fault.long_display])
+    @already_outputted = true
+  end
+  
   alias started_old started
   def started(result)
     started_old(result)
@@ -38,7 +45,9 @@ class Test::Unit::UI::Console::TestRunner
   
   alias finished_old finished
   def finished(elapsed_time)
-    finished_old(elapsed_time)
+    nl
+    output("Finished in #{elapsed_time} seconds.")
+    output(@result)
     output_benchmarks
     output_benchmarks(:suite)
     nl
