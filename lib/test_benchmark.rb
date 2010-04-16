@@ -81,15 +81,10 @@ class Test::Unit::UI::Console::TestRunner
   @@sort_by_time = lambda { |a,b| b[1] <=> a[1] }
 
 private
-  def echo_opts
-    @echo_opts ||= `man echo`.include?("-e") ? ['-e', '-n'] : ['-n'] rescue nil
+  def set_terminal_title(string)
+    print "\033]0;#{string}\007"
   end
 
-  def set_terminal_title(string)
-    return unless echo_opts
-    title = "\033]0;#{string}\007"
-    system *["echo", echo_opts, title].flatten
-  end
 
   def full_output?
     ENV['BENCHMARK'] == 'full'
