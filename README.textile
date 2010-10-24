@@ -1,3 +1,5 @@
+h1. Not actively maintained
+
 h1. Test Benchmark
 
 A ruby gem and rails plugin to show you how slow your Test::Unit tests run. Useful for troubleshooting/isolating slow tests. Available from http://github.com/timocratic/test_benchmark/
